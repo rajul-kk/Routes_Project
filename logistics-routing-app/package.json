@@ -1,2 +1,14 @@
-# Scripts to run both client/server concurrently (optional)
-
+{
+  "name": "logistics-routing-app",
+  "version": "1.0.0",
+  "description": "Fullstack React Native app for logistics routing in Kuala Lumpur",
+  "scripts": {
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "server": "cd server && npm run dev",
+    "client": "cd client && npm start",
+    "install-all": "npm install && cd server && npm install && cd ../client && npm install"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
