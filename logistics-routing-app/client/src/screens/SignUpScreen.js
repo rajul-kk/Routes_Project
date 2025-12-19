@@ -4,16 +4,15 @@ import React, { useState } from 'react';
 import {
   View,
   Text,
-  TextInput,
   TouchableOpacity,
   StyleSheet,
   KeyboardAvoidingView,
   Platform,
-  ActivityIndicator,
   Alert,
   ScrollView,
 } from 'react-native';
 import { signup } from '../services/api';
+import { InputField, Button } from '../components';
 
 const SignUpScreen = ({ onSignUp, onNavigateToLogin }) => {
   const [name, setName] = useState('');
@@ -21,8 +20,6 @@ const SignUpScreen = ({ onSignUp, onNavigateToLogin }) => {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [loading, setLoading] = useState(false);
-  const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const handleSignUp = async () => {
     if (!name.trim()) {
@@ -83,85 +80,47 @@ const SignUpScreen = ({ onSignUp, onNavigateToLogin }) => {
             <Text style={styles.welcomeText}>Create Account</Text>
             <Text style={styles.instructionText}>Fill in your details to get started</Text>
 
-            <View style={styles.inputContainer}>
-              <Text style={styles.inputLabel}>Full Name</Text>
-              <TextInput
-                style={styles.input}
-                placeholder="Enter your full name"
-                placeholderTextColor="#8E8E93"
-                value={name}
-                onChangeText={setName}
-                autoCapitalize="words"
-              />
-            </View>
+            <InputField
+              label="Full Name"
+              value={name}
+              onChangeText={setName}
+              placeholder="Enter your full name"
+              autoCapitalize="words"
+            />
 
-            <View style={styles.inputContainer}>
-              <Text style={styles.inputLabel}>Email</Text>
-              <TextInput
-                style={styles.input}
-                placeholder="Enter your email"
-                placeholderTextColor="#8E8E93"
-                value={email}
-                onChangeText={setEmail}
-                keyboardType="email-address"
-                autoCapitalize="none"
-                autoCorrect={false}
-              />
-            </View>
+            <InputField
+              label="Email"
+              value={email}
+              onChangeText={setEmail}
+              placeholder="Enter your email"
+              keyboardType="email-address"
+            />
 
-            <View style={styles.inputContainer}>
-              <Text style={styles.inputLabel}>Password</Text>
-              <View style={styles.passwordContainer}>
-                <TextInput
-                  style={styles.passwordInput}
-                  placeholder="Create a password (min 6 chars)"
-                  placeholderTextColor="#8E8E93"
-                  value={password}
-                  onChangeText={setPassword}
-                  secureTextEntry={!showPassword}
-                  autoCapitalize="none"
-                />
-                <TouchableOpacity
-                  style={styles.eyeButton}
-                  onPress={() => setShowPassword(!showPassword)}
-                >
-                  <Text style={styles.eyeIcon}>{showPassword ? '👁️' : '👁️‍🗨️'}</Text>
-                </TouchableOpacity>
-              </View>
-            </View>
+            <InputField
+              label="Password"
+              value={password}
+              onChangeText={setPassword}
+              placeholder="Create a password (min 6 chars)"
+              secureTextEntry
+              showPasswordToggle
+            />
 
-            <View style={styles.inputContainer}>
-              <Text style={styles.inputLabel}>Confirm Password</Text>
-              <View style={styles.passwordContainer}>
-                <TextInput
-                  style={styles.passwordInput}
-                  placeholder="Confirm your password"
-                  placeholderTextColor="#8E8E93"
-                  value={confirmPassword}
-                  onChangeText={setConfirmPassword}
-                  secureTextEntry={!showConfirmPassword}
-                  autoCapitalize="none"
-                />
-                <TouchableOpacity
-                  style={styles.eyeButton}
-                  onPress={() => setShowConfirmPassword(!showConfirmPassword)}
-                >
-                  <Text style={styles.eyeIcon}>{showConfirmPassword ? '👁️' : '👁️‍🗨️'}</Text>
-                </TouchableOpacity>
-              </View>
-            </View>
+            <InputField
+              label="Confirm Password"
+              value={confirmPassword}
+              onChangeText={setConfirmPassword}
+              placeholder="Confirm your password"
+              secureTextEntry
+              showPasswordToggle
+            />
 
-            <TouchableOpacity
-              style={[styles.signUpButton, loading && styles.signUpButtonDisabled]}
+            <Button
+              title="Create Account"
               onPress={handleSignUp}
-              disabled={loading}
-            >
-              {loading ? (
-                <ActivityIndicator color="#FFFFFF" />
-              ) : (
-                <Text style={styles.signUpButtonText}>Create Account</Text>
-              )}
-            </TouchableOpacity>
+              loading={loading}
+              variant="success"
+              style={styles.signUpButton}
+            />
 
             <View style={styles.termsContainer}>
               <Text style={styles.termsText}>
@@ -247,63 +206,11 @@ const styles = StyleSheet.create({
     color: '#8E8E93',
     marginBottom: 24,
   },
-  inputContainer: {
-    marginBottom: 18,
-  },
-  inputLabel: {
-    fontSize: 14,
-    fontWeight: '600',
-    color: '#FFFFFF',
-    marginBottom: 8,
-  },
-  input: {
-    backgroundColor: '#0A1628',
-    borderRadius: 12,
-    paddingHorizontal: 16,
-    paddingVertical: 14,
-    fontSize: 16,
-    color: '#FFFFFF',
-    borderWidth: 1,
-    borderColor: '#2C3E50',
-  },
-  passwordContainer: {
-    flexDirection: 'row',
-    backgroundColor: '#0A1628',
-    borderRadius: 12,
-    borderWidth: 1,
-    borderColor: '#2C3E50',
-  },
-  passwordInput: {
-    flex: 1,
-    paddingHorizontal: 16,
-    paddingVertical: 14,
-    fontSize: 16,
-    color: '#FFFFFF',
-  },
-  eyeButton: {
-    paddingHorizontal: 16,
-    justifyContent: 'center',
-  },
-  eyeIcon: {
-    fontSize: 20,
-  },
   signUpButton: {
-    backgroundColor: '#30D158',
-    borderRadius: 12,
-    paddingVertical: 16,
-    alignItems: 'center',
     marginTop: 8,
-    marginBottom: 16,
-  },
-  signUpButtonDisabled: {
-    opacity: 0.7,
-  },
-  signUpButtonText: {
-    fontSize: 18,
-    fontWeight: '700',
-    color: '#FFFFFF',
   },
   termsContainer: {
+    marginTop: 16,
     marginBottom: 20,
   },
   termsText: {
@@ -348,4 +255,3 @@ const styles = StyleSheet.create({
 });
 
 export default SignUpScreen;
-

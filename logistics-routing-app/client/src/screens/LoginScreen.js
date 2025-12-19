@@ -4,21 +4,19 @@ import React, { useState } from 'react';
 import {
   View,
   Text,
-  TextInput,
   TouchableOpacity,
   StyleSheet,
   KeyboardAvoidingView,
   Platform,
-  ActivityIndicator,
   Alert,
 } from 'react-native';
 import { login } from '../services/api';
+import { InputField, Button } from '../components';
 
 const LoginScreen = ({ onLogin, onNavigateToSignUp }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
-  const [showPassword, setShowPassword] = useState(false);
 
   const handleLogin = async () => {
     if (!email.trim()) {
@@ -61,56 +59,33 @@ const LoginScreen = ({ onLogin, onNavigateToSignUp }) => {
           <Text style={styles.welcomeText}>Welcome Back</Text>
           <Text style={styles.instructionText}>Sign in to continue</Text>
 
-          <View style={styles.inputContainer}>
-            <Text style={styles.inputLabel}>Email</Text>
-            <TextInput
-              style={styles.input}
-              placeholder="Enter your email"
-              placeholderTextColor="#8E8E93"
-              value={email}
-              onChangeText={setEmail}
-              keyboardType="email-address"
-              autoCapitalize="none"
-              autoCorrect={false}
-            />
-          </View>
+          <InputField
+            label="Email"
+            value={email}
+            onChangeText={setEmail}
+            placeholder="Enter your email"
+            keyboardType="email-address"
+          />
 
-          <View style={styles.inputContainer}>
-            <Text style={styles.inputLabel}>Password</Text>
-            <View style={styles.passwordContainer}>
-              <TextInput
-                style={styles.passwordInput}
-                placeholder="Enter your password"
-                placeholderTextColor="#8E8E93"
-                value={password}
-                onChangeText={setPassword}
-                secureTextEntry={!showPassword}
-                autoCapitalize="none"
-              />
-              <TouchableOpacity
-                style={styles.eyeButton}
-                onPress={() => setShowPassword(!showPassword)}
-              >
-                <Text style={styles.eyeIcon}>{showPassword ? '👁️' : '👁️‍🗨️'}</Text>
-              </TouchableOpacity>
-            </View>
-          </View>
+          <InputField
+            label="Password"
+            value={password}
+            onChangeText={setPassword}
+            placeholder="Enter your password"
+            secureTextEntry
+            showPasswordToggle
+          />
 
           <TouchableOpacity style={styles.forgotPassword}>
             <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity
-            style={[styles.loginButton, loading && styles.loginButtonDisabled]}
+          <Button
+            title="Sign In"
             onPress={handleLogin}
-            disabled={loading}
-          >
-            {loading ? (
-              <ActivityIndicator color="#FFFFFF" />
-            ) : (
-              <Text style={styles.loginButtonText}>Sign In</Text>
-            )}
-          </TouchableOpacity>
+            loading={loading}
+            variant="primary"
+          />
 
           <View style={styles.divider}>
             <View style={styles.dividerLine} />
@@ -182,74 +157,20 @@ const styles = StyleSheet.create({
     color: '#8E8E93',
     marginBottom: 28,
   },
-  inputContainer: {
-    marginBottom: 20,
-  },
-  inputLabel: {
-    fontSize: 14,
-    fontWeight: '600',
-    color: '#FFFFFF',
-    marginBottom: 8,
-  },
-  input: {
-    backgroundColor: '#0A1628',
-    borderRadius: 12,
-    paddingHorizontal: 16,
-    paddingVertical: 14,
-    fontSize: 16,
-    color: '#FFFFFF',
-    borderWidth: 1,
-    borderColor: '#2C3E50',
-  },
-  passwordContainer: {
-    flexDirection: 'row',
-    backgroundColor: '#0A1628',
-    borderRadius: 12,
-    borderWidth: 1,
-    borderColor: '#2C3E50',
-  },
-  passwordInput: {
-    flex: 1,
-    paddingHorizontal: 16,
-    paddingVertical: 14,
-    fontSize: 16,
-    color: '#FFFFFF',
-  },
-  eyeButton: {
-    paddingHorizontal: 16,
-    justifyContent: 'center',
-  },
-  eyeIcon: {
-    fontSize: 20,
-  },
   forgotPassword: {
     alignSelf: 'flex-end',
     marginBottom: 24,
+    marginTop: -12,
   },
   forgotPasswordText: {
     fontSize: 14,
     color: '#64D2FF',
     fontWeight: '600',
   },
-  loginButton: {
-    backgroundColor: '#FF375F',
-    borderRadius: 12,
-    paddingVertical: 16,
-    alignItems: 'center',
-    marginBottom: 24,
-  },
-  loginButtonDisabled: {
-    opacity: 0.7,
-  },
-  loginButtonText: {
-    fontSize: 18,
-    fontWeight: '700',
-    color: '#FFFFFF',
-  },
   divider: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 24,
+    marginVertical: 24,
   },
   dividerLine: {
     flex: 1,
@@ -278,4 +199,3 @@ const styles = StyleSheet.create({
 });
 
 export default LoginScreen;
-
