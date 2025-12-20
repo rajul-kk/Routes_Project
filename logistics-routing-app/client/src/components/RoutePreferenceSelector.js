@@ -1,7 +1,7 @@
 // Route preference selector component (Shortest/Least Traffic/Eco-Friendly)
 
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, Pressable, StyleSheet } from 'react-native';
 
 const PREFERENCES = [
   { id: 'shortest', label: 'Shortest' },
@@ -17,11 +17,12 @@ const RoutePreferenceSelector = ({
   return (
     <View style={styles.container}>
       {preferences.map((pref) => (
-        <TouchableOpacity
+        <Pressable
           key={pref.id}
-          style={[
+          style={({ pressed }) => [
             styles.option,
             selected === pref.id && styles.optionActive,
+            pressed && styles.optionPressed,
           ]}
           onPress={() => onSelect(pref.id)}
         >
@@ -33,7 +34,7 @@ const RoutePreferenceSelector = ({
           >
             {pref.label}
           </Text>
-        </TouchableOpacity>
+        </Pressable>
       ))}
     </View>
   );
@@ -55,10 +56,20 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderWidth: 1,
     borderColor: '#2C3E50',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 2,
+    elevation: 2,
   },
   optionActive: {
     backgroundColor: '#64D2FF',
     borderColor: '#64D2FF',
+  },
+  optionPressed: {
+    transform: [{ translateY: 1 }],
+    shadowOffset: { width: 0, height: 1 },
+    elevation: 1,
   },
   label: {
     color: '#8E8E93',

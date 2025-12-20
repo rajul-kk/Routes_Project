@@ -1,7 +1,7 @@
 // Reusable input field component
 
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TextInput, Pressable, StyleSheet } from 'react-native';
 
 const InputField = ({
   label,
@@ -39,14 +39,17 @@ const InputField = ({
         />
         
         {isPassword && (
-          <TouchableOpacity
-            style={styles.eyeButton}
+          <Pressable
+            style={({ pressed }) => [
+              styles.eyeButton,
+              pressed && styles.eyeButtonPressed
+            ]}
             onPress={() => setShowPassword(!showPassword)}
           >
             <Text style={styles.eyeIcon}>
               {showPassword ? '👁️' : '👁️‍🗨️'}
             </Text>
-          </TouchableOpacity>
+          </Pressable>
         )}
       </View>
       
@@ -95,6 +98,10 @@ const styles = StyleSheet.create({
   },
   eyeIcon: {
     fontSize: 20,
+  },
+  eyeButtonPressed: {
+    opacity: 0.7,
+    transform: [{ scale: 0.95 }],
   },
   errorText: {
     fontSize: 12,

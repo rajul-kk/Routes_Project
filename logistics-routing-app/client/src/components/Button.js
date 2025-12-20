@@ -1,7 +1,7 @@
-// Reusable button component
+// Reusable button component with 3D press effect
 
-import React from 'react';
-import { TouchableOpacity, Text, ActivityIndicator, StyleSheet } from 'react-native';
+import React, { useState } from 'react';
+import { Pressable, Text, ActivityIndicator, StyleSheet } from 'react-native';
 
 const Button = ({
   title,
@@ -12,6 +12,8 @@ const Button = ({
   style,
   textStyle,
 }) => {
+  const [pressed, setPressed] = useState(false);
+
   const getVariantStyle = () => {
     switch (variant) {
       case 'primary':
@@ -38,15 +40,29 @@ const Button = ({
     }
   };
 
+  const getPressedStyle = () => {
+    if (pressed && !disabled && !loading) {
+      return {
+        transform: [{ translateY: 2 }],
+        shadowOffset: { width: 0, height: 2 },
+        elevation: 2,
+      };
+    }
+    return {};
+  };
+
   return (
-    <TouchableOpacity
-      style={[
+    <Pressable
+      style={({ pressed: isPressed }) => [
         styles.button,
         getVariantStyle(),
         (loading || disabled) && styles.disabled,
+        isPressed && !disabled && !loading && getPressedStyle(),
         style,
       ]}
       onPress={onPress}
+      onPressIn={() => setPressed(true)}
+      onPressOut={() => setPressed(false)}
       disabled={loading || disabled}
     >
       {loading ? (
@@ -56,7 +72,7 @@ const Button = ({
       ) : (
         <Text style={[getTextStyle(), textStyle]}>{title}</Text>
       )}
-    </TouchableOpacity>
+    </Pressable>
   );
 };
 
@@ -66,6 +82,11 @@ const styles = StyleSheet.create({
     paddingVertical: 16,
     alignItems: 'center',
     justifyContent: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
+    elevation: 4,
   },
   primary: {
     backgroundColor: '#FF375F',

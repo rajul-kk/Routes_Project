@@ -1,7 +1,7 @@
 // Vehicle type selector component (Car/Bike)
 
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, Pressable, StyleSheet } from 'react-native';
 
 const VEHICLES = [
   { id: 'car', label: 'Car', icon: '🚗' },
@@ -12,11 +12,12 @@ const VehicleSelector = ({ selected, onSelect, vehicles = VEHICLES }) => {
   return (
     <View style={styles.container}>
       {vehicles.map((vehicle) => (
-        <TouchableOpacity
+        <Pressable
           key={vehicle.id}
-          style={[
+          style={({ pressed }) => [
             styles.option,
             selected === vehicle.id && styles.optionActive,
+            pressed && styles.optionPressed,
           ]}
           onPress={() => onSelect(vehicle.id)}
         >
@@ -29,7 +30,7 @@ const VehicleSelector = ({ selected, onSelect, vehicles = VEHICLES }) => {
           >
             {vehicle.label}
           </Text>
-        </TouchableOpacity>
+        </Pressable>
       ))}
     </View>
   );
@@ -52,10 +53,20 @@ const styles = StyleSheet.create({
     backgroundColor: '#0A1628',
     borderWidth: 1,
     borderColor: '#2C3E50',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 2,
+    elevation: 2,
   },
   optionActive: {
     backgroundColor: '#30D158',
     borderColor: '#30D158',
+  },
+  optionPressed: {
+    transform: [{ translateY: 1 }],
+    shadowOffset: { width: 0, height: 1 },
+    elevation: 1,
   },
   icon: {
     fontSize: 18,

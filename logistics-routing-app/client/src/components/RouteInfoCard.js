@@ -1,7 +1,7 @@
 // Route information card component
 
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, Pressable, StyleSheet } from 'react-native';
 import { formatDuration, formatDistance } from '../utils/formatTime';
 
 const RouteInfoCard = ({ 
@@ -16,9 +16,14 @@ const RouteInfoCard = ({
       <View style={styles.header}>
         <Text style={styles.title}>Route Details</Text>
         {onClear && (
-          <TouchableOpacity onPress={onClear}>
+          <Pressable 
+            onPress={onClear}
+            style={({ pressed }) => [
+              pressed && styles.clearButtonPressed
+            ]}
+          >
             <Text style={styles.clearButton}>Clear</Text>
-          </TouchableOpacity>
+          </Pressable>
         )}
       </View>
       
@@ -75,6 +80,10 @@ const styles = StyleSheet.create({
   clearButton: {
     color: '#FF375F',
     fontWeight: '600',
+  },
+  clearButtonPressed: {
+    opacity: 0.7,
+    transform: [{ translateY: 1 }],
   },
   content: {
     flexDirection: 'row',

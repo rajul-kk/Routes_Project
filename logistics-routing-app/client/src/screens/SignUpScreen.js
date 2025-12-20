@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import {
   View,
   Text,
-  TouchableOpacity,
+  Pressable,
   StyleSheet,
   KeyboardAvoidingView,
   Platform,
@@ -71,7 +71,6 @@ const SignUpScreen = ({ onSignUp, onNavigateToLogin }) => {
       >
         <View style={styles.backgroundOverlay}>
           <View style={styles.headerContainer}>
-            <Text style={styles.logo}>📍</Text>
             <Text style={styles.title}>RouteKL</Text>
             <Text style={styles.subtitle}>Join the Smart Logistics Network</Text>
           </View>
@@ -139,9 +138,14 @@ const SignUpScreen = ({ onSignUp, onNavigateToLogin }) => {
 
             <View style={styles.loginContainer}>
               <Text style={styles.loginText}>Already have an account? </Text>
-              <TouchableOpacity onPress={onNavigateToLogin}>
+              <Pressable 
+                onPress={onNavigateToLogin}
+                style={({ pressed }) => [
+                  pressed && styles.loginLinkPressed
+                ]}
+              >
                 <Text style={styles.loginLink}>Sign In</Text>
-              </TouchableOpacity>
+              </Pressable>
             </View>
           </View>
         </View>
@@ -168,10 +172,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: 60,
     marginBottom: 30,
-  },
-  logo: {
-    fontSize: 56,
-    marginBottom: 10,
   },
   title: {
     fontSize: 32,
@@ -251,6 +251,10 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#64D2FF',
     fontWeight: '700',
+  },
+  loginLinkPressed: {
+    opacity: 0.7,
+    transform: [{ translateY: 1 }],
   },
 });
 

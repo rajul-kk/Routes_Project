@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import {
   View,
   Text,
-  TouchableOpacity,
+  Pressable,
   StyleSheet,
   KeyboardAvoidingView,
   Platform,
@@ -50,7 +50,6 @@ const LoginScreen = ({ onLogin, onNavigateToSignUp }) => {
     >
       <View style={styles.backgroundOverlay}>
         <View style={styles.headerContainer}>
-          <Text style={styles.logo}>📍</Text>
           <Text style={styles.title}>RouteKL</Text>
           <Text style={styles.subtitle}>Logistics Routing for Kuala Lumpur</Text>
         </View>
@@ -76,9 +75,14 @@ const LoginScreen = ({ onLogin, onNavigateToSignUp }) => {
             showPasswordToggle
           />
 
-          <TouchableOpacity style={styles.forgotPassword}>
+          <Pressable 
+            style={({ pressed }) => [
+              styles.forgotPassword,
+              pressed && styles.forgotPasswordPressed
+            ]}
+          >
             <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
-          </TouchableOpacity>
+          </Pressable>
 
           <Button
             title="Sign In"
@@ -95,9 +99,14 @@ const LoginScreen = ({ onLogin, onNavigateToSignUp }) => {
 
           <View style={styles.signUpContainer}>
             <Text style={styles.signUpText}>Don't have an account? </Text>
-            <TouchableOpacity onPress={onNavigateToSignUp}>
+            <Pressable 
+              onPress={onNavigateToSignUp}
+              style={({ pressed }) => [
+                pressed && styles.signUpLinkPressed
+              ]}
+            >
               <Text style={styles.signUpLink}>Sign Up</Text>
-            </TouchableOpacity>
+            </Pressable>
           </View>
         </View>
       </View>
@@ -119,10 +128,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: 80,
     marginBottom: 40,
-  },
-  logo: {
-    fontSize: 64,
-    marginBottom: 12,
   },
   title: {
     fontSize: 36,
@@ -167,6 +172,10 @@ const styles = StyleSheet.create({
     color: '#64D2FF',
     fontWeight: '600',
   },
+  forgotPasswordPressed: {
+    opacity: 0.7,
+    transform: [{ translateY: 1 }],
+  },
   divider: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -195,6 +204,10 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#64D2FF',
     fontWeight: '700',
+  },
+  signUpLinkPressed: {
+    opacity: 0.7,
+    transform: [{ translateY: 1 }],
   },
 });
 

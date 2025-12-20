@@ -1,7 +1,7 @@
 // Header component with user greeting and logout
 
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, Pressable, StyleSheet } from 'react-native';
 
 const Header = ({ title = 'RouteKL', userName, onLogout, showLogout = true }) => {
   return (
@@ -13,9 +13,15 @@ const Header = ({ title = 'RouteKL', userName, onLogout, showLogout = true }) =>
         )}
       </View>
       {showLogout && onLogout && (
-        <TouchableOpacity style={styles.logoutButton} onPress={onLogout}>
+        <Pressable 
+          style={({ pressed }) => [
+            styles.logoutButton,
+            pressed && styles.logoutButtonPressed
+          ]} 
+          onPress={onLogout}
+        >
           <Text style={styles.logoutText}>Logout</Text>
-        </TouchableOpacity>
+        </Pressable>
       )}
     </View>
   );
@@ -48,6 +54,16 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingVertical: 8,
     borderRadius: 8,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 2,
+    elevation: 2,
+  },
+  logoutButtonPressed: {
+    transform: [{ translateY: 1 }],
+    shadowOffset: { width: 0, height: 1 },
+    elevation: 1,
   },
   logoutText: {
     color: '#FFFFFF',

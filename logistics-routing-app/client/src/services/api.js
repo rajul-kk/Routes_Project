@@ -1,7 +1,7 @@
 // API calls (e.g., api.js calling your local backend)
 
-const API_BASE_URL = __DEV__ 
-  ? 'http://172.18.5.244:5000/api' 
+const API_BASE_URL = __DEV__
+  ? 'http://172.18.5.244:3000/api'
   : 'https://your-production-api.com/api';
 
 /**
