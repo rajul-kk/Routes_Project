@@ -13,6 +13,7 @@ import {
 } from 'react-native';
 import { signup } from '../services/api';
 import { InputField, Button } from '../components';
+import { validateEmail, validatePassword, validateName, validatePasswordMatch } from '../utils/validation';
 
 const SignUpScreen = ({ onSignUp, onNavigateToLogin }) => {
   const [name, setName] = useState('');
@@ -20,41 +21,106 @@ const SignUpScreen = ({ onSignUp, onNavigateToLogin }) => {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [loading, setLoading] = useState(false);
+  const [errors, setErrors] = useState({
+    name: '',
+    email: '',
+    password: '',
+    confirmPassword: '',
+    general: '',
+  });
+
+  const validateForm = () => {
+    const nameError = validateName(name);
+    const emailError = validateEmail(email);
+    const passwordError = validatePassword(password);
+    const confirmPasswordError = validatePasswordMatch(password, confirmPassword);
+
+    setErrors({
+      name: nameError || '',
+      email: emailError || '',
+      password: passwordError || '',
+      confirmPassword: confirmPasswordError || '',
+      general: '',
+    });
+
+    return !nameError && !emailError && !passwordError && !confirmPasswordError;
+  };
+
+  const handleNameChange = (text) => {
+    setName(text);
+    if (errors.name) {
+      setErrors({ ...errors, name: '' });
+    }
+  };
+
+  const handleEmailChange = (text) => {
+    setEmail(text);
+    if (errors.email) {
+      setErrors({ ...errors, email: '' });
+    }
+  };
+
+  const handlePasswordChange = (text) => {
+    setPassword(text);
+    if (errors.password) {
+      setErrors({ ...errors, password: '' });
+    }
+    // Re-validate confirm password if it has a value
+    if (confirmPassword && errors.confirmPassword) {
+      const confirmError = validatePasswordMatch(text, confirmPassword);
+      setErrors({ ...errors, password: '', confirmPassword: confirmError || '' });
+    }
+  };
+
+  const handleConfirmPasswordChange = (text) => {
+    setConfirmPassword(text);
+    if (errors.confirmPassword) {
+      setErrors({ ...errors, confirmPassword: '' });
+    }
+  };
 
   const handleSignUp = async () => {
-    if (!name.trim()) {
-      Alert.alert('Error', 'Please enter your name');
-      return;
-    }
-    if (!email.trim()) {
-      Alert.alert('Error', 'Please enter your email');
-      return;
-    }
-    if (!password.trim()) {
-      Alert.alert('Error', 'Please enter a password');
-      return;
-    }
-    if (password.length < 6) {
-      Alert.alert('Error', 'Password must be at least 6 characters');
-      return;
-    }
-    if (password !== confirmPassword) {
-      Alert.alert('Error', 'Passwords do not match');
+    // Clear previous errors
+    setErrors({
+      name: '',
+      email: '',
+      password: '',
+      confirmPassword: '',
+      general: '',
+    });
+
+    // Validate form
+    if (!validateForm()) {
       return;
     }
 
     setLoading(true);
     try {
-      const response = await signup(email, password, name);
+      const response = await signup(email.trim(), password, name.trim());
       if (response.success) {
         Alert.alert('Success', 'Account created successfully!', [
           { text: 'OK', onPress: () => onSignUp(response.user) }
         ]);
       } else {
-        Alert.alert('Error', response.error || 'Sign up failed');
+        // Show server error
+        setErrors({
+          ...errors,
+          general: response.error || 'Sign up failed',
+        });
       }
     } catch (error) {
-      Alert.alert('Error', error.message || 'Something went wrong');
+      // Handle network errors
+      if (error.message.includes('Network request failed') || error.message.includes('Failed to fetch')) {
+        setErrors({
+          ...errors,
+          general: 'Cannot connect to server. Please check your connection.',
+        });
+      } else {
+        setErrors({
+          ...errors,
+          general: error.message || 'Something went wrong',
+        });
+      }
     } finally {
       setLoading(false);
     }
@@ -79,38 +145,48 @@ const SignUpScreen = ({ onSignUp, onNavigateToLogin }) => {
             <Text style={styles.welcomeText}>Create Account</Text>
             <Text style={styles.instructionText}>Fill in your details to get started</Text>
 
+            {errors.general ? (
+              <View style={styles.generalErrorContainer}>
+                <Text style={styles.generalErrorText}>{errors.general}</Text>
+              </View>
+            ) : null}
+
             <InputField
               label="Full Name"
               value={name}
-              onChangeText={setName}
+              onChangeText={handleNameChange}
               placeholder="Enter your full name"
               autoCapitalize="words"
+              error={errors.name}
             />
 
             <InputField
               label="Email"
               value={email}
-              onChangeText={setEmail}
+              onChangeText={handleEmailChange}
               placeholder="Enter your email"
               keyboardType="email-address"
+              error={errors.email}
             />
 
             <InputField
               label="Password"
               value={password}
-              onChangeText={setPassword}
+              onChangeText={handlePasswordChange}
               placeholder="Create a password (min 6 chars)"
               secureTextEntry
               showPasswordToggle
+              error={errors.password}
             />
 
             <InputField
               label="Confirm Password"
               value={confirmPassword}
-              onChangeText={setConfirmPassword}
+              onChangeText={handleConfirmPasswordChange}
               placeholder="Confirm your password"
               secureTextEntry
               showPasswordToggle
+              error={errors.confirmPassword}
             />
 
             <Button
@@ -205,6 +281,19 @@ const styles = StyleSheet.create({
     fontSize: 15,
     color: '#8E8E93',
     marginBottom: 24,
+  },
+  generalErrorContainer: {
+    backgroundColor: '#FF375F20',
+    borderWidth: 1,
+    borderColor: '#FF375F',
+    borderRadius: 8,
+    padding: 12,
+    marginBottom: 20,
+  },
+  generalErrorText: {
+    fontSize: 14,
+    color: '#FF375F',
+    textAlign: 'center',
   },
   signUpButton: {
     marginTop: 8,

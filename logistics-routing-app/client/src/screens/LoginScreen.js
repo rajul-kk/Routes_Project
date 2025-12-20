@@ -8,36 +8,84 @@ import {
   StyleSheet,
   KeyboardAvoidingView,
   Platform,
-  Alert,
 } from 'react-native';
 import { login } from '../services/api';
 import { InputField, Button } from '../components';
+import { validateEmail, validatePassword } from '../utils/validation';
 
 const LoginScreen = ({ onLogin, onNavigateToSignUp }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
+  const [errors, setErrors] = useState({
+    email: '',
+    password: '',
+    general: '',
+  });
+
+  const validateForm = () => {
+    const emailError = validateEmail(email);
+    const passwordError = validatePassword(password);
+
+    setErrors({
+      email: emailError || '',
+      password: passwordError || '',
+      general: '',
+    });
+
+    return !emailError && !passwordError;
+  };
+
+  const handleEmailChange = (text) => {
+    setEmail(text);
+    // Clear email error when user starts typing
+    if (errors.email) {
+      setErrors({ ...errors, email: '' });
+    }
+  };
+
+  const handlePasswordChange = (text) => {
+    setPassword(text);
+    // Clear password error when user starts typing
+    if (errors.password) {
+      setErrors({ ...errors, password: '' });
+    }
+  };
 
   const handleLogin = async () => {
-    if (!email.trim()) {
-      Alert.alert('Error', 'Please enter your email');
-      return;
-    }
-    if (!password.trim()) {
-      Alert.alert('Error', 'Please enter your password');
+    // Clear previous errors
+    setErrors({ email: '', password: '', general: '' });
+
+    // Validate form
+    if (!validateForm()) {
       return;
     }
 
     setLoading(true);
     try {
-      const response = await login(email, password);
+      const response = await login(email.trim(), password);
       if (response.success) {
         onLogin(response.user);
       } else {
-        Alert.alert('Error', response.error || 'Login failed');
+        // Show server error
+        setErrors({
+          ...errors,
+          general: response.error || 'Login failed',
+        });
       }
     } catch (error) {
-      Alert.alert('Error', error.message || 'Something went wrong');
+      // Handle network errors
+      if (error.message.includes('Network request failed') || error.message.includes('Failed to fetch')) {
+        setErrors({
+          ...errors,
+          general: 'Cannot connect to server. Please check your connection.',
+        });
+      } else {
+        setErrors({
+          ...errors,
+          general: error.message || 'Something went wrong',
+        });
+      }
     } finally {
       setLoading(false);
     }
@@ -58,21 +106,29 @@ const LoginScreen = ({ onLogin, onNavigateToSignUp }) => {
           <Text style={styles.welcomeText}>Welcome Back</Text>
           <Text style={styles.instructionText}>Sign in to continue</Text>
 
+          {errors.general ? (
+            <View style={styles.generalErrorContainer}>
+              <Text style={styles.generalErrorText}>{errors.general}</Text>
+            </View>
+          ) : null}
+
           <InputField
             label="Email"
             value={email}
-            onChangeText={setEmail}
+            onChangeText={handleEmailChange}
             placeholder="Enter your email"
             keyboardType="email-address"
+            error={errors.email}
           />
 
           <InputField
             label="Password"
             value={password}
-            onChangeText={setPassword}
+            onChangeText={handlePasswordChange}
             placeholder="Enter your password"
             secureTextEntry
             showPasswordToggle
+            error={errors.password}
           />
 
           <Pressable 
@@ -161,6 +217,19 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#8E8E93',
     marginBottom: 28,
+  },
+  generalErrorContainer: {
+    backgroundColor: '#FF375F20',
+    borderWidth: 1,
+    borderColor: '#FF375F',
+    borderRadius: 8,
+    padding: 12,
+    marginBottom: 20,
+  },
+  generalErrorText: {
+    fontSize: 14,
+    color: '#FF375F',
+    textAlign: 'center',
   },
   forgotPassword: {
     alignSelf: 'flex-end',
