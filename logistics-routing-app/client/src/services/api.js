@@ -1,8 +1,6 @@
-// API calls (e.g., api.js calling your local backend)
+// API service for backend communication
 
-const API_BASE_URL = __DEV__
-  ? 'http://172.18.5.244:3000/api'
-  : 'https://your-production-api.com/api';
+const API_BASE_URL = '/api';
 
 /**
  * Login user
@@ -18,11 +16,17 @@ export const login = async (email, password) => {
       },
       body: JSON.stringify({ email, password }),
     });
+    
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({ error: 'Network error' }));
+      return { success: false, error: errorData.error || 'Login failed' };
+    }
+    
     const data = await response.json();
     return data;
   } catch (error) {
     console.error('Error logging in:', error);
-    throw error;
+    throw new Error('Cannot connect to server. Please check your connection.');
   }
 };
 
@@ -41,11 +45,17 @@ export const signup = async (email, password, name) => {
       },
       body: JSON.stringify({ email, password, name }),
     });
+    
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({ error: 'Network error' }));
+      return { success: false, error: errorData.error || 'Signup failed' };
+    }
+    
     const data = await response.json();
     return data;
   } catch (error) {
     console.error('Error signing up:', error);
-    throw error;
+    throw new Error('Cannot connect to server. Please check your connection.');
   }
 };
 
@@ -55,11 +65,16 @@ export const signup = async (email, password, name) => {
 export const getDistributionCentres = async () => {
   try {
     const response = await fetch(`${API_BASE_URL}/distribution-centres`);
+    
+    if (!response.ok) {
+      throw new Error(`Failed to fetch distribution centres: ${response.status}`);
+    }
+    
     const data = await response.json();
     return data;
   } catch (error) {
     console.error('Error fetching distribution centres:', error);
-    throw error;
+    throw new Error('Cannot connect to server. Check your network connection and ensure the backend is running.');
   }
 };
 
@@ -76,10 +91,16 @@ export const getRoute = async (params) => {
       },
       body: JSON.stringify(params),
     });
+    
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({ error: 'Network error' }));
+      return { success: false, error: errorData.error || 'Route calculation failed' };
+    }
+    
     const data = await response.json();
     return data;
   } catch (error) {
     console.error('Error fetching route:', error);
-    throw error;
+    throw new Error('Cannot connect to server. Check your network connection and ensure the backend is running.');
   }
 };
