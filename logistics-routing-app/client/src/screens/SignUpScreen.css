@@ -1,0 +1,142 @@
+.signup-screen {
+  min-height: 100vh;
+  background-color: #0A1628;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+.signup-background {
+  width: 100%;
+  max-width: 500px;
+  background-color: #0A1628;
+  padding-bottom: 40px;
+}
+
+.signup-header {
+  text-align: center;
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+
+.signup-title {
+  font-size: 32px;
+  font-weight: 800;
+  color: #FFFFFF;
+  letter-spacing: 2px;
+  margin: 0;
+}
+
+.signup-subtitle {
+  font-size: 14px;
+  color: #64D2FF;
+  margin-top: 8px;
+  letter-spacing: 1px;
+}
+
+.signup-form {
+  background-color: #1C2A3A;
+  border-radius: 24px;
+  padding: 28px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+}
+
+.signup-welcome {
+  font-size: 26px;
+  font-weight: 700;
+  color: #FFFFFF;
+  margin: 0 0 4px 0;
+}
+
+.signup-instruction {
+  font-size: 15px;
+  color: #8E8E93;
+  margin: 0 0 24px 0;
+}
+
+.signup-error-general {
+  background-color: rgba(255, 55, 95, 0.125);
+  border: 1px solid #FF375F;
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 20px;
+}
+
+.signup-error-general p {
+  font-size: 14px;
+  color: #FF375F;
+  text-align: center;
+  margin: 0;
+}
+
+.signup-terms {
+  margin-top: 16px;
+  margin-bottom: 20px;
+}
+
+.signup-terms p {
+  font-size: 13px;
+  color: #8E8E93;
+  text-align: center;
+  line-height: 20px;
+  margin: 0;
+}
+
+.signup-terms-link {
+  color: #64D2FF;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.signup-terms-link:hover {
+  text-decoration: underline;
+}
+
+.signup-divider {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.signup-divider-line {
+  flex: 1;
+  height: 1px;
+  background-color: #2C3E50;
+}
+
+.signup-divider-text {
+  margin: 0 16px;
+  font-size: 14px;
+  color: #8E8E93;
+  font-weight: 600;
+}
+
+.signup-login-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.signup-login-text {
+  font-size: 16px;
+  color: #8E8E93;
+}
+
+.signup-login-link {
+  background: none;
+  border: none;
+  color: #64D2FF;
+  font-weight: 700;
+  font-size: 16px;
+  cursor: pointer;
+  padding: 0;
+  transition: opacity 0.2s;
+}
+
+.signup-login-link:hover {
+  opacity: 0.7;
+}
+

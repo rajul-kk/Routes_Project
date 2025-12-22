@@ -1,11 +1,10 @@
 // Main entry point
 
 import React, { useState } from 'react';
-import { StatusBar } from 'expo-status-bar';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
-import LoginScreen from './src/screens/LoginScreen';
-import SignUpScreen from './src/screens/SignUpScreen';
-import MapScreen from './src/screens/MapScreen';
+import LoginScreen from './screens/LoginScreen';
+import SignUpScreen from './screens/SignUpScreen';
+import MapScreen from './screens/MapScreen';
+import './App.css';
 
 export default function App() {
   const [user, setUser] = useState(null);
@@ -35,8 +34,7 @@ export default function App() {
   };
 
   return (
-    <SafeAreaProvider>
-      <StatusBar style="light" />
+    <div className="app">
       {currentScreen === 'login' && (
         <LoginScreen 
           onLogin={handleLogin} 
@@ -55,6 +53,7 @@ export default function App() {
           onLogout={handleLogout} 
         />
       )}
-    </SafeAreaProvider>
+    </div>
   );
 }
+
