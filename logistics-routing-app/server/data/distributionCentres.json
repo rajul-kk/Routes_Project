@@ -1,0 +1,53 @@
+[
+  {
+    "id": 1,
+    "name": "KL Sentral Hub",
+    "location": { "lat": 3.134, "lng": 101.686 }
+  },
+  {
+    "id": 2,
+    "name": "Bukit Bintang Distribution Center",
+    "location": { "lat": 3.149, "lng": 101.712 }
+  },
+  {
+    "id": 3,
+    "name": "Petaling Jaya Warehouse",
+    "location": { "lat": 3.107, "lng": 101.608 }
+  },
+  {
+    "id": 4,
+    "name": "Ampang Logistics Hub",
+    "location": { "lat": 3.148, "lng": 101.768 }
+  },
+  {
+    "id": 5,
+    "name": "Cheras Distribution Point",
+    "location": { "lat": 3.088, "lng": 101.748 }
+  },
+  {
+    "id": 6,
+    "name": "Kepong Storage Facility",
+    "location": { "lat": 3.213, "lng": 101.643 }
+  },
+  {
+    "id": 7,
+    "name": "Mont Kiara Fulfillment Center",
+    "location": { "lat": 3.173, "lng": 101.661 }
+  },
+  {
+    "id": 8,
+    "name": "Bangsar Logistics Hub",
+    "location": { "lat": 3.130, "lng": 101.669 }
+  },
+  {
+    "id": 9,
+    "name": "Setapak Distribution Center",
+    "location": { "lat": 3.203, "lng": 101.720 }
+  },
+  {
+    "id": 10,
+    "name": "Pudu Warehouse",
+    "location": { "lat": 3.140, "lng": 101.700 }
+  }
+]
+

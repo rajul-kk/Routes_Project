@@ -1,0 +1,43 @@
+.route-preference-selector {
+  display: flex;
+  flex-direction: row;
+  padding: 0 16px 10px 16px;
+  background-color: #1C2A3A;
+  gap: 8px;
+}
+
+.route-preference-option {
+  flex: 1;
+  padding: 8px;
+  border-radius: 8px;
+  background-color: #0A1628;
+  border: 1px solid #2C3E50;
+  cursor: pointer;
+  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
+  transition: all 0.2s;
+}
+
+.route-preference-option:hover {
+  opacity: 0.9;
+}
+
+.route-preference-option:active {
+  transform: translateY(1px);
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+}
+
+.route-preference-option-active {
+  background-color: #64D2FF;
+  border-color: #64D2FF;
+}
+
+.route-preference-label {
+  color: #8E8E93;
+  font-weight: 600;
+  font-size: 12px;
+}
+
+.route-preference-label-active {
+  color: #0A1628;
+}
+

@@ -1,0 +1,49 @@
+.vehicle-selector {
+  display: flex;
+  flex-direction: row;
+  padding: 10px 16px;
+  background-color: #1C2A3A;
+  gap: 10px;
+}
+
+.vehicle-option {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 8px 16px;
+  border-radius: 20px;
+  background-color: #0A1628;
+  border: 1px solid #2C3E50;
+  cursor: pointer;
+  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
+  transition: all 0.2s;
+}
+
+.vehicle-option:hover {
+  opacity: 0.9;
+}
+
+.vehicle-option:active {
+  transform: translateY(1px);
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+}
+
+.vehicle-option-active {
+  background-color: #30D158;
+  border-color: #30D158;
+}
+
+.vehicle-icon {
+  font-size: 18px;
+  margin-right: 6px;
+}
+
+.vehicle-label {
+  color: #8E8E93;
+  font-weight: 600;
+}
+
+.vehicle-label-active {
+  color: #FFFFFF;
+}
+

@@ -1,0 +1,135 @@
+.login-screen {
+  min-height: 100vh;
+  background-color: #0A1628;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.login-background {
+  width: 100%;
+  max-width: 500px;
+  background-color: #0A1628;
+}
+
+.login-header {
+  text-align: center;
+  margin-top: 40px;
+  margin-bottom: 40px;
+}
+
+.login-title {
+  font-size: 36px;
+  font-weight: 800;
+  color: #FFFFFF;
+  letter-spacing: 2px;
+  margin: 0;
+}
+
+.login-subtitle {
+  font-size: 14px;
+  color: #64D2FF;
+  margin-top: 8px;
+  letter-spacing: 1px;
+}
+
+.login-form {
+  background-color: #1C2A3A;
+  border-radius: 24px;
+  padding: 28px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+}
+
+.login-welcome {
+  font-size: 28px;
+  font-weight: 700;
+  color: #FFFFFF;
+  margin: 0 0 4px 0;
+}
+
+.login-instruction {
+  font-size: 16px;
+  color: #8E8E93;
+  margin: 0 0 28px 0;
+}
+
+.login-error-general {
+  background-color: rgba(255, 55, 95, 0.125);
+  border: 1px solid #FF375F;
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 20px;
+}
+
+.login-error-general p {
+  font-size: 14px;
+  color: #FF375F;
+  text-align: center;
+  margin: 0;
+}
+
+.login-forgot-password {
+  align-self: flex-end;
+  margin-bottom: 24px;
+  margin-top: -12px;
+  background: none;
+  border: none;
+  color: #64D2FF;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  padding: 0;
+  transition: opacity 0.2s;
+}
+
+.login-forgot-password:hover {
+  opacity: 0.7;
+}
+
+.login-divider {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin: 24px 0;
+}
+
+.login-divider-line {
+  flex: 1;
+  height: 1px;
+  background-color: #2C3E50;
+}
+
+.login-divider-text {
+  margin: 0 16px;
+  font-size: 14px;
+  color: #8E8E93;
+  font-weight: 600;
+}
+
+.login-signup-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.login-signup-text {
+  font-size: 16px;
+  color: #8E8E93;
+}
+
+.login-signup-link {
+  background: none;
+  border: none;
+  color: #64D2FF;
+  font-weight: 700;
+  font-size: 16px;
+  cursor: pointer;
+  padding: 0;
+  transition: opacity 0.2s;
+}
+
+.login-signup-link:hover {
+  opacity: 0.7;
+}
+

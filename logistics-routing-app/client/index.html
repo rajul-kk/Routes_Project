@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>RouteKL - Logistics Routing</title>
+    <script 
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBMJsq3nSbOxzcbASlaerZ2rWWtALpttf8&libraries=places&callback=initGoogleMaps"
+      async 
+      defer
+      onerror="handleGoogleMapsError()"
+    ></script>
+    <script>
+      window.googleMapsLoaded = false;
+      window.googleMapsError = null;
+      
+      function initGoogleMaps() {
+        window.googleMapsLoaded = true;
+        if (window.onGoogleMapsReady) {
+          window.onGoogleMapsReady();
+        }
+      }
+      
+      function handleGoogleMapsError() {
+        window.googleMapsError = 'Failed to load Google Maps script';
+        if (window.onGoogleMapsError) {
+          window.onGoogleMapsError();
+        }
+      }
+      
+      // Check for API errors after a delay
+      setTimeout(() => {
+        if (!window.googleMapsLoaded && !window.googleMapsError) {
+          if (window.google && window.google.maps) {
+            window.googleMapsLoaded = true;
+          } else {
+            window.googleMapsError = 'Google Maps API failed to load. Check your API key.';
+          }
+        }
+      }, 3000);
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>
+
